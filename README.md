@@ -25,6 +25,13 @@ Note: The actual application configuration properties are excluded as they conta
 
 ### Deliver documents
 
+- Request
+
+```curl -XPOST --user admin:ADMINKEY -H "Content-Type: application/octet-stream" -H "Content-Disposition: attachment; filename=someFile.xml" -k "https://localhost:8080/api/files" --data-binary "@/path/to/file"```
+
+- Response
+
+```{"uuid":"a3569d23-83c1-42bd-ad08-1bf8974ffa6c"}```
 
 ### List documents
 
@@ -128,5 +135,6 @@ Certain things I want to get up and running are:
 
 - The application (Camel in specific) should adhere to the filter chain defined in the `SpringSecurityConfig` so that adding a custom servlet filter (i.e. `AWSXRayServletFilter`) can do what it is intended for
 - Get hal+json responses from the services. Currently the project uses [jackson-dataformat-hal](https://github.com/Nykredit/jackson-dataformat-hal) though this requires a custom `JacksonJsonProvider` which I was not yet able to get it to work, thus the response format is not real hal+json as no `"_embedded"` or `"_links"` fields are available yet.
+- File uploads should return a 201 with a location header of the URI to look up the file again (easy to fix but not yet done)
 
 
