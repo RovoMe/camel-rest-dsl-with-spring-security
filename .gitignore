@@ -17,7 +17,6 @@ target/
 .settings/
 *.swp
 *.iml
-atlassian-ide-plugin.xml
 rebel.xml
 
 # Unencrypted passwords #
@@ -26,3 +25,5 @@ rebel.xml
 *-prod.properties
 *-vagrant.properties
 *-docker.properties
+
+src/main/security/*

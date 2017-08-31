@@ -16,7 +16,7 @@ import org.slf4j.MarkerFactory;
  * will take effect. To register this converter the following line has to be appended to the
  * respective logback configuration:
  * <pre><code>    &lt;conversionRule conversionWord="mask"
- *                  converterClass="at.erpel.logging.converter.MaskingConverter" /></code></pre>
+ *                  converterClass="at.rovo.awsxray.utils.MaskingConverter" /></code></pre>
  * Once this converter got registered log lines marked as <em>CONVERTED</em> can be masked simply
  * by using the following snippet:
  * <pre><code>    %mask(%msg)</code></pre>
@@ -28,8 +28,7 @@ import org.slf4j.MarkerFactory;
  *
  * @param <E> The type of the log event triggering the transformation prcoess
  */
-public class MaskingConverter<E extends ILoggingEvent> extends CompositeConverter<E>
-{
+public class MaskingConverter<E extends ILoggingEvent> extends CompositeConverter<E> {
 
   public static final String CONFIDENTIAL = "CONFIDENTIAL";
   public static final Marker CONFIDENTIAL_MARKER = MarkerFactory.getMarker(CONFIDENTIAL);
