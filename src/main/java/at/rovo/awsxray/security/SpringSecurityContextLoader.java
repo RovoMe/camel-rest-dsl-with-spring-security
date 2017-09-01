@@ -31,8 +31,7 @@ public class SpringSecurityContextLoader extends AbstractSpringSecurityContextLo
                                                                      AuthenticationProvider authProvider) {
     UsernamePasswordAuthenticationToken authToken =
         super.handleAuthentication(usernameAndPassword, exchange, authProvider);
-    UserDetails appUser = (UserDetails)authToken.getDetails();
-    exchange.getIn().setHeader("User", appUser);
+    exchange.getIn().setHeader("userId", authToken.getPrincipal());
     return authToken;
   }
 }

@@ -129,6 +129,40 @@ Note: The actual application configuration properties are excluded as they conta
 }
 ```
 
+## Mongo View collections
+
+This application uses MongoDB views on the user collection which load only necessary data for either the authentication process or for preventing Morphia from automatically loading referenced collections in the back on accessing certain fields, as this might avoid custom caching strategies.
+
+The currently required views can be created as follows:
+
+- User view used for authentication:
+
+```db.createView( "authUserView", "user", [ { $project: { "userId": 1, "userKeyEncrypted": 1, "uuid":1, "roles": 1, "passwordHash": 1, "disabled": 1 } } ] )```
+
+- User view which replaces MongoDB's DBRef construct with a simple UUID replacement of the referenced company
+
+```
+db.createView( "companyUserView", "user", [
+       { $project: { "userId": 1, "userKeyEncrypted": 1, "uuid":1, "roles": 1, "passwordHash": 1, "disabled": 1, company: { $objectToArray: "$$ROOT.company" }} }, 
+       { $unwind: "$company" }, 
+       { $match: { "company.k": "$id"}  }, 
+       { $lookup: { from: "company", localField: "company.v", foreignField: "_id", as: "company_data" } },
+       { $project: { "userId": 1, "userKeyEncrypted": 1, "uuid":1, "roles": 1, "passwordHash": 1, "disabled": 1,  "companyUuid": { $arrayElemAt: [ "$company_data.uuid", 0 ] } } }
+   ])
+   ```
+
+or 
+
+```
+db.createView( "companyUserView", "user", [
+    { $project: { "userId": 1, "userKeyEncrypted": 1, "uuid":1, "roles": 1, "passwordHash": 1, "disabled": 1, companyRefs: { $let: { vars: { refParts: { $objectToArray: "$$ROOT.company" }}, in: "$$refParts.v" } } } }, 
+    { $match: { "companyRefs": { $exists: true } } }, 
+    { $project: { "userId": 1, "userKeyEncrypted": 1, "uuid":1, "roles": 1, "passwordHash": 1, "disabled": 1, "companyRef": { $arrayElemAt: [ "$companyRefs", 1 ] } } }, 
+    { $lookup: { from: "company", localField: "companyRef", foreignField: "_id", as: "company_data" } }, 
+    { $project: { "userId": 1, "userKeyEncrypted": 1, "uuid":1, "roles": 1, "passwordHash": 1, "disabled": 1,  "companyUuid": { $arrayElemAt: [ "$company_data.uuid", 0 ] } } }
+])
+```
+
 ## TODO:
 
 Certain things I want to get up and running are:

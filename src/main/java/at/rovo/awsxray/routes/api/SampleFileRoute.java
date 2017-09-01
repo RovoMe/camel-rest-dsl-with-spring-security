@@ -3,6 +3,7 @@ package at.rovo.awsxray.routes.api;
 import at.rovo.awsxray.routes.api.beans.GetFile;
 import at.rovo.awsxray.routes.api.beans.ListFiles;
 import at.rovo.awsxray.routes.api.beans.StoreFile;
+import at.rovo.awsxray.routes.beans.LogUserCompany;
 import at.rovo.awsxray.security.SpringSecurityContextLoader;
 import org.apache.camel.model.rest.RestBindingMode;
 import org.apache.camel.model.rest.RestParamType;
@@ -41,6 +42,7 @@ public class SampleFileRoute extends BaseAPIRouteBuilder {
                         .log("Processing list files request")
                         .bean(SpringSecurityContextLoader.class)
                         .policy("authenticated")
+                        .bean(LogUserCompany.class)
                         .bean(ListFiles.class)
                         .log("List files request processed")
                 .endRest()
@@ -63,6 +65,7 @@ public class SampleFileRoute extends BaseAPIRouteBuilder {
                         .log("Processing get file request")
                         .bean(SpringSecurityContextLoader.class)
                         .policy("authenticated")
+                        .bean(LogUserCompany.class)
                         .bean(GetFile.class)
                         .log("Get file request processed")
                 .endRest()
@@ -76,6 +79,7 @@ public class SampleFileRoute extends BaseAPIRouteBuilder {
                         .log("Processing incoming file")
                         .bean(SpringSecurityContextLoader.class)
                         .policy("authenticated")
+                        .bean(LogUserCompany.class)
                         .bean(StoreFile.class)
                         .log("File upload completed")
                 .endRest();

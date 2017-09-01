@@ -1,11 +1,11 @@
 package at.rovo.awsxray.config;
 
 import at.rovo.awsxray.config.settings.MongoSettings;
+import at.rovo.awsxray.domain.CompanyService;
 import at.rovo.awsxray.domain.FileService;
 import at.rovo.awsxray.domain.UserService;
 import at.rovo.awsxray.utils.BigDecimalConverter;
 import at.rovo.awsxray.utils.MongoBuilder;
-import at.rovo.awsxray.utils.SpringObjectFactory;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoException;
 import com.mongodb.ReadPreference;
@@ -21,7 +21,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.DependsOn;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -51,13 +50,6 @@ public class MongoSpringConfig {
                 .build();
     }
 
-//    @Bean
-//    @DependsOn("datastore")
-//    public SpringObjectFactory springObjectFactory() {
-//        return new SpringObjectFactory();
-//    }
-
-
     @Bean
     public Morphia morphia() {
         Morphia morphia = new Morphia().mapPackage("at.rovo.awsxray.db.entities");
@@ -82,8 +74,7 @@ public class MongoSpringConfig {
 
         Datastore datastore = morphia().createDatastore(mongo, settings.getDatabase());
 
-        // Ensure that indexes and caps are applied, but only if it's not the
-        // read-only user
+        // Ensure that indexes and caps are applied, but only if it's not then read-only user
         if (StringUtils.isEmpty(settings.getUser()) || !settings.getUser().endsWith("-read")) {
             datastore.ensureIndexes();
             datastore.ensureCaps();
@@ -95,6 +86,11 @@ public class MongoSpringConfig {
     @Bean
     public UserService userService() {
         return new UserService();
+    }
+
+    @Bean
+    public CompanyService companyService() {
+        return new CompanyService();
     }
 
     @Bean

@@ -4,6 +4,7 @@ import at.rovo.awsxray.routes.S3FileUploadRoute;
 import at.rovo.awsxray.routes.api.HealthCheckResponderRoute;
 import at.rovo.awsxray.routes.HttpInvokerRoute;
 import at.rovo.awsxray.routes.api.SampleFileRoute;
+import at.rovo.awsxray.routes.beans.LogUserCompany;
 import at.rovo.awsxray.utils.DatabasePopulator;
 import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 import dk.nykredit.jackson.dataformat.hal.HALMapper;
@@ -115,5 +116,10 @@ public class SpringConfig extends CamelConfiguration {
     @Bean
     public JacksonJsonProvider jacksonJsonProvider() {
         return new JacksonJsonProvider(new HALMapper());
+    }
+
+    @Bean
+    public LogUserCompany logUserCompany() {
+        return new LogUserCompany();
     }
 }

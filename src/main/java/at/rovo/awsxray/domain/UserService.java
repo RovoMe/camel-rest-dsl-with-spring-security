@@ -1,6 +1,8 @@
 package at.rovo.awsxray.domain;
 
 import at.rovo.awsxray.domain.entities.UserEntity;
+import at.rovo.awsxray.domain.views.AuthenticationUserViewEntity;
+import at.rovo.awsxray.domain.views.CompanyUserViewEntity;
 import at.rovo.awsxray.security.KeyGenerator;
 import at.rovo.awsxray.utils.MongodbPersistenceUtil;
 import com.mongodb.WriteResult;
@@ -46,6 +48,40 @@ public class UserService extends BaseMongoService<UserEntity> {
 
         Query<UserEntity> query = mongoDataStore.find(UserEntity.class).field("userId")
                 .equal(MongodbPersistenceUtil.sanitize(userId).toLowerCase());
+        if (!includeDisabled) {
+            query.field("disabled").notEqual(true);
+        }
+        return query.get();
+    }
+
+    public AuthenticationUserViewEntity findUserView(final String userId) {
+        return findUserView(userId, false);
+    }
+
+    public AuthenticationUserViewEntity findUserView(final String userId, final Boolean includeDisabled) {
+        if ((userId == null) || userId.isEmpty()) {
+            return null;
+        }
+
+        Query<AuthenticationUserViewEntity> query = mongoDataStore.find(AuthenticationUserViewEntity.class)
+                .field("userId").equal(MongodbPersistenceUtil.sanitize(userId).toLowerCase());
+        if (!includeDisabled) {
+            query.field("disabled").notEqual(true);
+        }
+        return query.get();
+    }
+
+    public CompanyUserViewEntity findCompanyUser(final String userId) {
+        return findCompanyUser(userId, false);
+    }
+
+    public CompanyUserViewEntity findCompanyUser(final String userId, final Boolean includeDisabled) {
+        if ((userId == null) || userId.isEmpty()) {
+            return null;
+        }
+
+        Query<CompanyUserViewEntity> query = mongoDataStore.find(CompanyUserViewEntity.class)
+                .field("userId").equal(MongodbPersistenceUtil.sanitize(userId).toLowerCase());
         if (!includeDisabled) {
             query.field("disabled").notEqual(true);
         }

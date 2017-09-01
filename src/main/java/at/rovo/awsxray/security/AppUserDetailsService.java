@@ -1,7 +1,7 @@
 package at.rovo.awsxray.security;
 
 import at.rovo.awsxray.domain.UserService;
-import at.rovo.awsxray.domain.entities.UserEntity;
+import at.rovo.awsxray.domain.views.AuthenticationUserViewEntity;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -24,7 +24,7 @@ public class AppUserDetailsService implements UserDetailsService {
     @Resource
     private UserService userService;
 
-    protected AppUser createAppUser(UserEntity user) {
+    protected AppUser createAppUser(AuthenticationUserViewEntity user) {
 
         List<String> roles = user.getRoles();
 
@@ -43,7 +43,7 @@ public class AppUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
 
-        UserEntity user = userService.findUser(userId);
+        AuthenticationUserViewEntity user = userService.findUserView(userId);
 
         if (user == null) {
             throw new UsernameNotFoundException("No matching user with given credentials found");

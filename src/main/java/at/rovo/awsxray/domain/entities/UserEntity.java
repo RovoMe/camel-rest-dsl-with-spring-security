@@ -11,6 +11,7 @@ import org.mongodb.morphia.annotations.Index;
 import org.mongodb.morphia.annotations.IndexOptions;
 import org.mongodb.morphia.annotations.Indexes;
 import org.mongodb.morphia.annotations.PrePersist;
+import org.mongodb.morphia.annotations.Reference;
 import org.mongodb.morphia.annotations.Transient;
 
 @Entity(value = "user", noClassnameStored = true)
@@ -34,6 +35,9 @@ public class UserEntity extends BaseEntity implements SaltHash {
     private String lastName;
 
     private List<String> roles;
+
+    @Reference(lazy = true)
+    private CompanyEntity company;
 
     public UserEntity() {
         super();
@@ -104,6 +108,14 @@ public class UserEntity extends BaseEntity implements SaltHash {
             userKey = AESEncryptor.decrypt(userKeyEncrypted.getEncryptedAttribute(), userKeyEncrypted.getSalt());
         }
         return this.userKey;
+    }
+
+    public CompanyEntity getCompany() {
+        return company;
+    }
+
+    public void setCompany(CompanyEntity company) {
+        this.company = company;
     }
 
     @Override
