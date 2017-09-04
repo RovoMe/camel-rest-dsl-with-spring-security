@@ -18,6 +18,7 @@
 
     <logger name="at.rovo" level="debug"/>
     <logger name="com.amazonaws.xray" level="debug"/>
+    <logger name="org.eclipse.jetty.servlet" level="debug"/>
 
     <root>
         <level value="info"/>

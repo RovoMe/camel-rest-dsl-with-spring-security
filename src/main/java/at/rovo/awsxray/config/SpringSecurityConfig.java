@@ -60,17 +60,17 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         super();
     }
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        // does not work in combination with Camel Jetty component and Camel's REST DSL ...
-        LOG.debug("Initializing AWS XRay servlet filter");
-        http.addFilterBefore(new AWSXRayServletFilter("services"), WebAsyncManagerIntegrationFilter.class)
-
-                .authorizeRequests()
-                    .anyRequest().hasAnyRole("ROLE_USER", "ROLE_ADMIN")
-                .and()
-                    .httpBasic();
-    }
+//    @Override
+//    protected void configure(HttpSecurity http) throws Exception {
+//        // does not work in combination with Camel Jetty component and Camel's REST DSL ...
+//        LOG.debug("Initializing AWS XRay servlet filter");
+//        http.addFilterBefore(new AWSXRayServletFilter("services"), WebAsyncManagerIntegrationFilter.class)
+//
+//                .authorizeRequests()
+//                    .anyRequest().hasAnyRole("ROLE_USER", "ROLE_ADMIN")
+//                .and()
+//                    .httpBasic();
+//    }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -192,8 +192,10 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         return policy;
     }
 
-      @Bean
-      public Filter TracingFilter() {
-        return new AWSXRayServletFilter("test");
-      }
+    @Bean(name = "tracingFilters")
+    public List<Filter> TracingFilters() {
+        List<Filter> filters = new ArrayList<>();
+        filters.add(new AWSXRayServletFilter("test"));
+        return filters;
+    }
 }

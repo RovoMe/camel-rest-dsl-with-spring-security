@@ -267,11 +267,11 @@
             <groupId>com.amazonaws</groupId>
             <artifactId>aws-xray-recorder-sdk-aws-sdk</artifactId>
         </dependency>
-        <!--<dependency>-->
-        <!--&lt;!&ndash; With aws-xray-recorder-sdk-aws-sdk, instruments all AWS SDK for Java clients automatically &ndash;&gt;-->
-        <!--<groupId>com.amazonaws</groupId>-->
-        <!--<artifactId>aws-xray-recorder-sdk-aws-sdk-instrumentor</artifactId>-->
-        <!--</dependency>-->
+        <dependency>
+            <!-- With aws-xray-recorder-sdk-aws-sdk, instruments all AWS SDK for Java clients automatically -->
+            <groupId>com.amazonaws</groupId>
+            <artifactId>aws-xray-recorder-sdk-aws-sdk-instrumentor</artifactId>
+        </dependency>
         <dependency>
             <!-- Instruments outbound HTTP calls made with Apache HTTP clients -->
             <groupId>com.amazonaws</groupId>
