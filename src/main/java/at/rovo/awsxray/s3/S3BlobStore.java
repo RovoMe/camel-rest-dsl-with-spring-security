@@ -3,7 +3,7 @@ package at.rovo.awsxray.s3;
 import at.rovo.awsxray.HeaderConstants;
 import at.rovo.awsxray.config.settings.AwsS3Settings;
 import at.rovo.awsxray.routes.S3FileUploadRoute;
-import com.amazonaws.services.s3.AmazonS3Client;
+import com.amazonaws.services.s3.AmazonS3;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import org.apache.camel.Endpoint;
@@ -41,7 +41,7 @@ public class S3BlobStore implements BlobStore {
 
 
   @Autowired
-  public S3BlobStore(AmazonS3Client s3Client, ProducerTemplate producerTemplate,
+  public S3BlobStore(AmazonS3 s3Client, ProducerTemplate producerTemplate,
                      CompressionService compressionService, AwsS3Settings awsS3Settings)
       throws NoSuchAlgorithmException {
 

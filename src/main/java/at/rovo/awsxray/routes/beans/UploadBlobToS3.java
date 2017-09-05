@@ -3,7 +3,7 @@ package at.rovo.awsxray.routes.beans;
 import at.rovo.awsxray.HeaderConstants;
 import at.rovo.awsxray.config.settings.AwsS3Settings;
 import at.rovo.awsxray.s3.S3Util;
-import com.amazonaws.services.s3.AmazonS3Client;
+import com.amazonaws.services.s3.AmazonS3;
 import java.lang.invoke.MethodHandles;
 import javax.annotation.Resource;
 import org.apache.camel.Exchange;
@@ -24,7 +24,7 @@ public class UploadBlobToS3 {
 
   private S3Util s3Util;
   @Resource
-  private AmazonS3Client amazonS3Client;
+  private AmazonS3 amazonS3Client;
   @Resource
   private AwsS3Settings awsS3Settings;
 
@@ -38,7 +38,7 @@ public class UploadBlobToS3 {
   }
 
   @Autowired
-  public UploadBlobToS3(AmazonS3Client amazonS3Client, AwsS3Settings awsS3Settings) {
+  public UploadBlobToS3(AmazonS3 amazonS3Client, AwsS3Settings awsS3Settings) {
     this.s3Util = new S3Util();
     this.s3Util.setAwsS3Client(amazonS3Client);
 

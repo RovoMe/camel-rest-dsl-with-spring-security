@@ -1,5 +1,6 @@
 package at.rovo.awsxray.s3;
 
+import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
@@ -20,7 +21,7 @@ public class S3Util {
 
   private static final Logger LOG = LoggerFactory.getLogger(S3Util.class);
 
-  private AmazonS3Client awsS3Client;
+  private AmazonS3 awsS3Client;
 
   protected PutObjectRequest createPutObjectRequest(String bucket, String key, byte[] body) {
     if (body == null) {
@@ -74,7 +75,7 @@ public class S3Util {
     return bucketLocation;
   }
 
-  public void setAwsS3Client(AmazonS3Client awsS3Client) {
+  public void setAwsS3Client(AmazonS3 awsS3Client) {
     this.awsS3Client = awsS3Client;
   }
 

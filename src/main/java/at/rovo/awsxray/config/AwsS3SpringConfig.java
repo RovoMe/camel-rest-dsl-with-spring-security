@@ -10,10 +10,13 @@ import at.rovo.awsxray.s3.S3BlobStore;
 import at.rovo.awsxray.s3.S3Util;
 import com.amazonaws.ClientConfiguration;
 import com.amazonaws.auth.AWSCredentials;
+import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
+import com.amazonaws.services.s3.AmazonS3Encryption;
 import com.amazonaws.services.s3.AmazonS3EncryptionClient;
 import com.amazonaws.services.s3.model.CryptoConfiguration;
 import com.amazonaws.services.s3.model.EncryptionMaterials;
+import com.amazonaws.services.s3.model.StaticEncryptionMaterialsProvider;
 import com.google.common.base.Strings;
 import java.lang.invoke.MethodHandles;
 import java.security.MessageDigest;
@@ -41,7 +44,7 @@ public class AwsS3SpringConfig {
     private AwsS3Settings awsS3Settings;
 
     @Bean
-    public AmazonS3EncryptionClient amazonS3EncryptionClient() {
+    public AmazonS3Encryption amazonS3EncryptionClient() {
 
         if (Strings.isNullOrEmpty(awsS3Settings.getAccessKey())) {
             throw new RuntimeException("Property s3.awsS3AccessKey not found. Cannot create s3 client");
@@ -59,7 +62,7 @@ public class AwsS3SpringConfig {
         return createS3Client(awsS3Settings);
     }
 
-    private AmazonS3EncryptionClient createS3Client(AwsS3Settings s3Settings) {
+    private AmazonS3Encryption createS3Client(AwsS3Settings s3Settings) {
 
         final AWSCredentials credentials = new BasicAWSCredentials(s3Settings.getAccessKey(), s3Settings.getSecretKey());
 
@@ -76,13 +79,16 @@ public class AwsS3SpringConfig {
 
             final SecretKey encryptionKey = new SecretKeySpec(key, "AES");
             final EncryptionMaterials encryptionMaterials = new EncryptionMaterials(encryptionKey);
-            final AmazonS3EncryptionClient client =
-                    new AmazonS3EncryptionClient(credentials, encryptionMaterials, clientConfiguration, new CryptoConfiguration());
 
             LOG.debug("Setting region for Amazon S3 client to {}", s3Settings.getRegion());
-            client.setEndpoint(s3Settings.getRegion());
+            return AmazonS3EncryptionClient.encryptionBuilder()
+                    .withRegion(s3Settings.getRegion())
+                    .withCredentials(new AWSStaticCredentialsProvider(credentials))
+                    .withEncryptionMaterials(new StaticEncryptionMaterialsProvider(encryptionMaterials))
+                    .withClientConfiguration(clientConfiguration)
+                    .withCryptoConfiguration(new CryptoConfiguration())
+                    .build();
 
-            return client;
         } catch (Exception e) {
             throw new IllegalStateException("Could not create S3 client",e);
         }
