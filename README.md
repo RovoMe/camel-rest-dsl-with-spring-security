@@ -94,7 +94,7 @@ This should probably get replaced by a `201 Created` HTTP response containing a 
                 "self" : {
                     "href" : "https://localhost:8080/api/files/3cec3700-4f4a-4f17-aea3-2b445cb625e8"
                 }
-            }
+            },
             "createdAt" : "2017-08-30T10:48:59Z",
             "size" : 764
          }
