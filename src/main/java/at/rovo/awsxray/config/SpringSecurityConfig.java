@@ -10,18 +10,12 @@ import com.amazonaws.xray.AWSXRayRecorderBuilder;
 import com.amazonaws.xray.javax.servlet.AWSXRayServletFilter;
 import com.amazonaws.xray.plugins.EC2Plugin;
 import com.google.common.base.Joiner;
-import java.lang.invoke.MethodHandles;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-import javax.security.auth.Subject;
 import javax.servlet.Filter;
-import org.apache.camel.component.spring.security.AuthenticationAdapter;
 import org.apache.camel.component.spring.security.SpringSecurityAccessPolicy;
 import org.apache.camel.component.spring.security.SpringSecurityAuthorizationPolicy;
 import org.apache.camel.spi.HeaderFilterStrategy;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.access.AccessDecisionManager;
@@ -32,14 +26,10 @@ import org.springframework.security.access.vote.AffirmativeBased;
 import org.springframework.security.access.vote.RoleHierarchyVoter;
 import org.springframework.security.access.vote.RoleVoter;
 import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter;
 
 /**
  * Add support for spring-security based basic authentication on camel jetty endpoints.
@@ -47,8 +37,6 @@ import org.springframework.security.web.context.request.async.WebAsyncManagerInt
 @Configuration
 @EnableWebSecurity
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
-
-    private static final Logger LOG = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     static {
         AWSXRayRecorderBuilder builder = AWSXRayRecorderBuilder.standard().withPlugin(new EC2Plugin());
@@ -59,18 +47,6 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     public SpringSecurityConfig() {
         super();
     }
-
-//    @Override
-//    protected void configure(HttpSecurity http) throws Exception {
-//        // does not work in combination with Camel Jetty component and Camel's REST DSL ...
-//        LOG.debug("Initializing AWS XRay servlet filter");
-//        http.addFilterBefore(new AWSXRayServletFilter("services"), WebAsyncManagerIntegrationFilter.class)
-//
-//                .authorizeRequests()
-//                    .anyRequest().hasAnyRole("ROLE_USER", "ROLE_ADMIN")
-//                .and()
-//                    .httpBasic();
-//    }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -147,30 +123,6 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         return new RoleHierarchyVoter(roleHierarchy());
     }
 
-//    private AuthenticationAdapter authenticationAdapter() {
-//        return new AuthenticationAdapter() {
-//            public Authentication toAuthentication(Subject subject) {
-//                if (subject == null || subject.getPrincipals().size() == 0) {
-//                    return null;
-//                }
-//                Set<Authentication> authentications  = subject.getPrincipals(Authentication.class);
-//                if (authentications.size() > 0) {
-//                    // just return the first one
-//                    return authentications.iterator().next();
-//                } else {
-//                    return convertToAuthentication(subject);
-//                }
-//            }
-//
-//            /**
-//             * You can add the customer convert code here
-//             */
-//            protected Authentication convertToAuthentication(Subject subject) {
-//                return new UsernamePasswordAuthenticationToken(subject.getPrincipals(), subject.getPublicCredentials());
-//            }
-//        };
-//    }
-
     @Bean(name = "authenticated")
     public SpringSecurityAuthorizationPolicy authenticated_access() throws Exception {
         SpringSecurityAuthorizationPolicy policy = new SpringSecurityAuthorizationPolicy();
@@ -178,7 +130,6 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         policy.setAuthenticationManager(authenticationManagerBean());
         policy.setAccessDecisionManager(accessDecisionManager());
         policy.setSpringSecurityAccessPolicy(new SpringSecurityAccessPolicy("ROLE_USER,ROLE_ADMIN"));
-//        policy.setAuthenticationAdapter(authenticationAdapter());
         return policy;
     }
 
@@ -195,7 +146,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean(name = "tracingFilters")
     public List<Filter> TracingFilters() {
         List<Filter> filters = new ArrayList<>();
-        filters.add(new AWSXRayServletFilter("test"));
+        filters.add(new AWSXRayServletFilter("api"));
         return filters;
     }
 }

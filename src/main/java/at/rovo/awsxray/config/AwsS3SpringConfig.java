@@ -17,6 +17,8 @@ import com.amazonaws.services.s3.AmazonS3EncryptionClient;
 import com.amazonaws.services.s3.model.CryptoConfiguration;
 import com.amazonaws.services.s3.model.EncryptionMaterials;
 import com.amazonaws.services.s3.model.StaticEncryptionMaterialsProvider;
+import com.amazonaws.xray.AWSXRay;
+import com.amazonaws.xray.handlers.TracingHandler;
 import com.google.common.base.Strings;
 import java.lang.invoke.MethodHandles;
 import java.security.MessageDigest;
@@ -87,6 +89,7 @@ public class AwsS3SpringConfig {
                     .withEncryptionMaterials(new StaticEncryptionMaterialsProvider(encryptionMaterials))
                     .withClientConfiguration(clientConfiguration)
                     .withCryptoConfiguration(new CryptoConfiguration())
+                    .withRequestHandlers(new TracingHandler(AWSXRay.getGlobalRecorder()))
                     .build();
 
         } catch (Exception e) {

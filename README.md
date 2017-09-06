@@ -167,8 +167,7 @@ db.createView( "companyUserView", "user", [
 
 Certain things I want to get up and running are:
 
-- The application (Camel in specific) should adhere to the filter chain defined in the `SpringSecurityConfig` so that adding a custom servlet filter (i.e. `AWSXRayServletFilter`) can do what it is intended for
-- Get hal+json responses from the services. Currently the project uses [jackson-dataformat-hal](https://github.com/Nykredit/jackson-dataformat-hal) though this requires a custom `JacksonJsonProvider` which I was not yet able to get it to work, thus the response format is not real hal+json as no `"_embedded"` or `"_links"` fields are available yet.
 - File uploads should return a 201 with a location header of the URI to look up the file again (easy to fix but not yet done)
+- Camel-Spring-Security uses its own way to decide if a route may be invoked by a user or not (via the `.policy(...)` route definition) though this does not respect any settings done in traditional spring security where certain endpoints are either declared to require authentication or that authentication should occur via basic auth. This has to be extracted manually in the exchange/route itself before the `.policy(...)` definition kicks in.
 
 

@@ -15,8 +15,11 @@ import javax.annotation.Resource;
 import org.apache.camel.CamelContext;
 import org.apache.camel.ProducerTemplate;
 import org.apache.camel.builder.RouteBuilder;
+import org.apache.camel.component.jackson.JacksonDataFormat;
 import org.apache.camel.component.properties.PropertiesComponent;
+import org.apache.camel.impl.DefaultDataFormatResolver;
 import org.apache.camel.management.DefaultManagementAgent;
+import org.apache.camel.spi.DataFormat;
 import org.apache.camel.spi.ManagementAgent;
 import org.apache.camel.spring.javaconfig.CamelConfiguration;
 import org.slf4j.Logger;
@@ -73,6 +76,8 @@ public class SpringConfig extends CamelConfiguration {
 
         final PropertiesComponent pc = new PropertiesComponent("classpath:" + env.getProperty("propertyfile"));
         camelContext.addComponent("properties", pc);
+
+        camelContext.setDataFormatResolver(new HalDataFormatResolver());
     }
 
     @Bean(name = "producerTemplate")
@@ -121,5 +126,35 @@ public class SpringConfig extends CamelConfiguration {
     @Bean
     public LogUserCompany logUserCompany() {
         return new LogUserCompany();
+    }
+
+    private class HalDataFormatResolver extends DefaultDataFormatResolver {
+
+        private final DataFormat dataFormat;
+
+        public HalDataFormatResolver() {
+            JacksonDataFormat jdf = new JacksonDataFormat();
+            jdf.setPrettyPrint(true);
+            jdf.setObjectMapper(new HALMapper());
+            dataFormat = jdf;
+        }
+
+        @Override
+        public DataFormat resolveDataFormat(String name, CamelContext context) {
+            if ("hal+json".equals(name)) {
+                return dataFormat;
+            } else {
+                return super.resolveDataFormat(name, context);
+            }
+        }
+
+        @Override
+        public DataFormat createDataFormat(String name, CamelContext context) {
+            if ("hal+json".equals(name)) {
+                return dataFormat;
+            } else {
+                return super.createDataFormat(name, context);
+            }
+        }
     }
 }

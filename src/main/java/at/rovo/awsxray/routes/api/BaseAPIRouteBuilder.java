@@ -42,6 +42,7 @@ public abstract class BaseAPIRouteBuilder extends RouteBuilder {
                 .endpointProperty("matchOnUriPrefix", "true")
                 .endpointProperty("sendServerVersion", "false")
                 .componentProperty("filtersRef", "#tracingFilters")
+                .jsonDataFormat("hal+json")
                 // enable CORS header in the HTTP response
                 .enableCORS(true)
                 .corsHeaderProperty("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")

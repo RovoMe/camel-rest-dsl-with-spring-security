@@ -2,11 +2,10 @@ package at.rovo.awsxray.domain.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import dk.nykredit.jackson.dataformat.hal.HALLink;
-import dk.nykredit.jackson.dataformat.hal.annotation.EmbeddedResource;
 import dk.nykredit.jackson.dataformat.hal.annotation.Link;
+import dk.nykredit.jackson.dataformat.hal.annotation.Resource;
 import java.net.URI;
 import java.util.List;
-import javax.annotation.Resource;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,7 +14,6 @@ import lombok.Setter;
 @Setter
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ListFilesResponse {
-    @EmbeddedResource
     private List<FileEntry> files;
 
     @Link

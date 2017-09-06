@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import dk.nykredit.jackson.dataformat.hal.HALLink;
 import dk.nykredit.jackson.dataformat.hal.annotation.Link;
 import dk.nykredit.jackson.dataformat.hal.annotation.Resource;
+import java.net.URI;
 import java.util.Base64;
 import java.util.Date;
 import lombok.Getter;
@@ -31,7 +32,11 @@ public class FileEntry {
         this.charset = entity.getCharset();
         this.size = entity.getSize();
         this.createdAt = entity.getReceivedAt();
-        this.self = new HALLink.Builder(contextPath + "/" + entity.getUuid()).build();
+        String cp = contextPath;
+        if (!contextPath.endsWith(entity.getUuid())) {
+            cp = cp + "/" + entity.getUuid();
+        }
+        this.self = new HALLink.Builder(URI.create(cp)).build();
     }
 
     public FileEntry(FileEntity entity, String contextPath, byte[] content) {
