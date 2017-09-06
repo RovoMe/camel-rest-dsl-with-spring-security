@@ -33,6 +33,10 @@ Note: The actual application configuration properties are excluded as they conta
 
 ```{"uuid":"a3569d23-83c1-42bd-ad08-1bf8974ffa6c"}```
 
+- TODO:
+
+This should probably get replaced by a `201 Created` HTTP response containing a `Location` HTTP header with the URI of the created file resource instead of the plain URI.
+
 ### List documents
 
 - Request
@@ -43,67 +47,74 @@ Note: The actual application configuration properties are excluded as they conta
 
 ```
 {
-      "self" : {
-         "href" : "https://localhost:8080/api/files?limit=5&offset=20"
-      },
-      "last" : {
-         "href" : "https://localhost:8080/api/files?limit=5&offset=30"
-      },
-      "next" : {
-         "href" : "https://localhost:8080/api/files?limit=5&offset=25"
-      },
       "files" : [
          {
             "size" : 764,
             "name" : "spring_security_acl_mongodb.json",
             "createdAt" : "2017-08-30T10:48:56Z",
-            "self" : {
-               "href" : "https://localhost:8080/api/files/5fb59bb9-15dd-4254-92a3-d8ca20daec67",
-               "templated" : true
+            "_links": {
+                "self" : {
+                    "href" : "https://localhost:8080/api/files/5fb59bb9-15dd-4254-92a3-d8ca20daec67"
+                }
             }
          },
          {
             "name" : "spring_security_acl_mongodb.json",
             "createdAt" : "2017-08-30T10:48:56Z",
-            "self" : {
-               "href" : "https://localhost:8080/api/files/25a7987d-76f9-4359-837b-0307ab85f1d4",
-               "templated" : true
+            "_links": {
+                "self" : {
+                    "href" : "https://localhost:8080/api/files/25a7987d-76f9-4359-837b-0307ab85f1d4"
+                }
             },
             "size" : 764
          },
          {
             "size" : 764,
-            "self" : {
-               "href" : "https://localhost:8080/api/files/d02c55d8-b827-43ae-affb-b0a4d8c499e1",
-               "templated" : true
+            "_links": {
+                "self" : {
+                    "href" : "https://localhost:8080/api/files/d02c55d8-b827-43ae-affb-b0a4d8c499e1"
+                }
             },
             "createdAt" : "2017-08-30T10:48:57Z",
             "name" : "spring_security_acl_mongodb.json"
          },
          {
             "createdAt" : "2017-08-30T10:48:58Z",
-            "self" : {
-               "templated" : true,
-               "href" : "https://localhost:8080/api/files/fc083ae3-2994-4b39-8820-46ff7107a46c"
+            "_links": {
+                "self" : {
+                    "href" : "https://localhost:8080/api/files/fc083ae3-2994-4b39-8820-46ff7107a46c"
+                }
             },
             "name" : "spring_security_acl_mongodb.json",
             "size" : 764
          },
          {
             "name" : "spring_security_acl_mongodb.json",
-            "self" : {
-               "href" : "https://localhost:8080/api/files/3cec3700-4f4a-4f17-aea3-2b445cb625e8",
-               "templated" : true
-            },
+            "_links": {
+                "self" : {
+                    "href" : "https://localhost:8080/api/files/3cec3700-4f4a-4f17-aea3-2b445cb625e8"
+                }
+            }
             "createdAt" : "2017-08-30T10:48:59Z",
             "size" : 764
          }
       ],
-      "prev" : {
-         "href" : "https://localhost:8080/api/files?limit=5&offset=15"
-      },
-      "first" : {
-         "href" : "https://localhost:8080/api/files?limit=5&offset=0"
+      "_links": {
+          "self" : {
+              "href" : "https://localhost:8080/api/files?limit=5&offset=20"
+          },
+          "last" : {
+              "href" : "https://localhost:8080/api/files?limit=5&offset=30"
+          },
+          "next" : {
+              "href" : "https://localhost:8080/api/files?limit=5&offset=25"
+          },
+          "prev" : {
+              "href" : "https://localhost:8080/api/files?limit=5&offset=15"
+          },
+          "first" : {
+              "href" : "https://localhost:8080/api/files?limit=5&offset=0"
+          }
       }
    }
 ```
@@ -121,9 +132,10 @@ Note: The actual application configuration properties are excluded as they conta
    "name" : "spring_security_acl_mongodb.json",
    "content" : "ewogICJpZCI6ICJvaWQuLi4iLAogICJuYW1lIjogIkRyYXdpbmdQZXJtaXNzaW9uIiwKICAiYnVzaW5lc3NPYmplY3RzIjogWwogICAgewogICAgICAiaWQiOiAib2lkLi4uIiwKICAgICAgImNsYXNzIjogImNvbS5lY29zaW8uc3JtLi4uLiIsCiAgICAgICJpbnN0YW5jZUlkIjogIi4uLiIsCiAgICAgICJvd25lciI6ICJvaWQxMjM0IiwKICAgICAgInBhcmVudCI6ICJvaWQxMTExIiwKICAgICAgImluaGVyaXRfcGVybWlzc2lvbnMiOiB0cnVlLAogICAgICAicGVybWlzc2lvbnMiOiBbCiAgICAgICAgewogICAgICAgICAgInNpZCI6ICJvaWQxMjM1IiwKICAgICAgICAgICJwb3NpdGlvbiI6IDEsCiAgICAgICAgICAibWFzayI6IDExMDAsIC8vIHJlYWQsIHVwZGF0ZSwgY3JlYXRlLCBkZWxldGUKICAgICAgICAgICJncmFudGluZyI6IGZhbHNlLCAvLyBhbGxvd2VkIHRvIGdyYW50IHBlcm1pc3Npb25zIHRvIG90aGVycwogICAgICAgICAgImF1ZGl0X3N1Y2Nlc3MiOiBmYWxzZSwKICAgICAgICAgICJhdWRpdF9mYWlsdXJlIjogdHJ1ZQogICAgICAgIH0sCiAgICAgICAgewogICAgICAgICAgInNpZCI6ICJvaWQxMjM2IiwKICAgICAgICAgICJwb3NpdGlvbiI6IDIsCiAgICAgICAgICAibWFzayI6IDExMTEsCiAgICAgICAgICAiZ3JhbnRpbmciOiB0cnVlLAogICAgICAgICAgImF1ZGl0X3N1Y2Nlc3MiOiBmYWxzZSwKICAgICAgICAgICJhdWRpdF9mYWlsdXJlIjogdHJ1ZQogICAgICAgIH0KICAgICAgXQogICAgfSwKICAgIC4uLgogIF0KfQo=",
    "size" : 764,
-   "self" : {
-      "href" : "https://localhost:8080/api/files/3cec3700-4f4a-4f17-aea3-2b445cb625e8/3cec3700-4f4a-4f17-aea3-2b445cb625e8",
-      "templated" : true
+   "_links": {
+       "self" : {
+          "href" : "https://localhost:8080/api/files/3cec3700-4f4a-4f17-aea3-2b445cb625e8"
+      }
    },
    "createdAt" : "2017-08-30T10:48:59Z"
 }
