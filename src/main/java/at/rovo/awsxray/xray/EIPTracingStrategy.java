@@ -41,10 +41,10 @@ public class EIPTracingStrategy implements InterceptStrategy {
 
         if (null == beanClass || !beanClass.isAnnotationPresent(Trace.class)) {
             LOG.trace("Either no bean or no bean with an @Trace annotation found. Skipping interception");
-            return new DelegateAsyncProcessor(target::process);
+            return new DelegateAsyncProcessor(target);
         }
 
-        LOG.debug("Wrapping process definition {} of target bean {} in order for recording the EIP trace",
+        LOG.trace("Wrapping process definition {} of target bean {} in order for recording the EIP trace",
                   processorDefinition, beanClass);
 
         Annotation annotation = beanClass.getAnnotation(Trace.class);

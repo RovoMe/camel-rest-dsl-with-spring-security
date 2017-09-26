@@ -64,20 +64,12 @@ public class XRayTracer extends ServiceSupport implements RoutePolicyFactory, St
             camelContext.addRoutePolicyFactory(this);
         }
 
-//        if (null == tracingStrategy) {
-//            Set<InterceptStrategy> tracingStrategies = camelContext.getRegistry().findByType(InterceptStrategy.class);
-//            if (tracingStrategies.size() == 1) {
-//                LOG.info("Using tracing strategy from the registry");
-//                tracingStrategy = tracingStrategies.iterator().next();
-//            }
-//        } else {
-//            LOG.info("Using provided tracing strategy via setter");
-//        }
-//
-//        if (null == tracingStrategy) {
-//            LOG.info("No tracing strategy available. Defaulting to no-op strategy");
-//            tracingStrategy = new NoopTracingStrategy();
-//        }
+        if (null == tracingStrategy) {
+            LOG.info("No tracing strategy available. Defaulting to no-op strategy");
+            tracingStrategy = new NoopTracingStrategy();
+        }
+
+        camelContext.addInterceptStrategy(tracingStrategy);
 
         LOG.debug("Starting XRay tracer");
         ServiceHelper.startServices(eventNotifier);

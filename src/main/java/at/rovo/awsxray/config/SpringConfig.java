@@ -81,9 +81,8 @@ public class SpringConfig extends CamelConfiguration {
 
         camelContext.setDataFormatResolver(new HalDataFormatResolver());
 
-        camelContext.addInterceptStrategy(new EIPTracingStrategy());
-
         XRayTracer xRayTracer = new XRayTracer();
+        xRayTracer.setTracingStrategy(new EIPTracingStrategy());
         xRayTracer.init(camelContext);
     }
 
