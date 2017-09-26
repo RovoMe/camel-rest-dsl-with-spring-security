@@ -132,13 +132,15 @@ public class JettySpringConfig {
             if (null == context) {
                 server.setHandler(new ServletContextHandler());
             }
-            for (Filter filter : filters) {
-                FilterHolder filterHolder = new FilterHolder();
-                if (!filterInit.isEmpty()) {
-                    filterHolder.setInitParameters(filterInit);
+            if (null != filters) {
+                for (Filter filter : filters) {
+                    FilterHolder filterHolder = new FilterHolder();
+                    if (!filterInit.isEmpty()) {
+                        filterHolder.setInitParameters(filterInit);
+                    }
+                    filterHolder.setFilter(filter);
+                    context.getServletHandler().addFilterWithMapping(filterHolder, "/*", 0);
                 }
-                filterHolder.setFilter(filter);
-                context.getServletHandler().addFilterWithMapping(filterHolder, "/*", 0);
             }
         }
 

@@ -143,10 +143,10 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         return policy;
     }
 
-    @Bean(name = "tracingFilters")
-    public List<Filter> TracingFilters() {
-        List<Filter> filters = new ArrayList<>();
-        filters.add(new AWSXRayServletFilter("api"));
-        return filters;
-    }
+//    @Bean(name = "tracingFilters")
+//    public List<Filter> TracingFilters() {
+//        List<Filter> filters = new ArrayList<>();
+//        filters.add(new AWSXRayServletFilter("api"));
+//        return filters;
+//    }
 }

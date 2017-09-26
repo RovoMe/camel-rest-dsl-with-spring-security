@@ -5,6 +5,7 @@ import at.rovo.awsxray.domain.dto.FileEntry;
 import at.rovo.awsxray.domain.entities.FileEntity;
 import at.rovo.awsxray.exceptions.FileNotFoundException;
 import at.rovo.awsxray.s3.BlobStore;
+import at.rovo.awsxray.xray.Trace;
 import java.io.IOException;
 import javax.annotation.Resource;
 import org.apache.camel.Exchange;
@@ -12,6 +13,7 @@ import org.apache.camel.Handler;
 import org.springframework.stereotype.Component;
 
 @Component
+@Trace
 public class GetFile {
 
     @Resource

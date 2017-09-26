@@ -3,6 +3,7 @@ package at.rovo.awsxray.routes.api.beans;
 import at.rovo.awsxray.domain.FileService;
 import at.rovo.awsxray.domain.entities.FileEntity;
 import at.rovo.awsxray.s3.BlobStore;
+import at.rovo.awsxray.xray.Trace;
 import java.util.Map;
 import javax.annotation.Resource;
 import org.apache.camel.Body;
@@ -14,6 +15,7 @@ import org.json.JSONObject;
 import org.springframework.stereotype.Component;
 
 @Component
+@Trace(metricName = "StoreFile")
 public class StoreFile {
 
     @Resource

@@ -4,6 +4,7 @@ import at.rovo.awsxray.domain.FileService;
 import at.rovo.awsxray.domain.dto.FileEntry;
 import at.rovo.awsxray.domain.dto.ListFilesResponse;
 import at.rovo.awsxray.domain.entities.FileEntity;
+import at.rovo.awsxray.xray.Trace;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.Resource;
@@ -12,6 +13,7 @@ import org.apache.camel.Handler;
 import org.springframework.stereotype.Component;
 
 @Component
+@Trace
 public class ListFiles {
 
     @Resource

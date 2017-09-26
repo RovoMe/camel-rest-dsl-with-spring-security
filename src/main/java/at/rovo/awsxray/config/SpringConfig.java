@@ -6,6 +6,8 @@ import at.rovo.awsxray.routes.HttpInvokerRoute;
 import at.rovo.awsxray.routes.api.SampleFileRoute;
 import at.rovo.awsxray.routes.beans.LogUserCompany;
 import at.rovo.awsxray.utils.DatabasePopulator;
+import at.rovo.awsxray.xray.EIPTracingStrategy;
+import at.rovo.awsxray.xray.XRayTracer;
 import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 import dk.nykredit.jackson.dataformat.hal.HALMapper;
 import java.lang.invoke.MethodHandles;
@@ -78,6 +80,11 @@ public class SpringConfig extends CamelConfiguration {
         camelContext.addComponent("properties", pc);
 
         camelContext.setDataFormatResolver(new HalDataFormatResolver());
+
+        camelContext.addInterceptStrategy(new EIPTracingStrategy());
+
+        XRayTracer xRayTracer = new XRayTracer();
+        xRayTracer.init(camelContext);
     }
 
     @Bean(name = "producerTemplate")
