@@ -67,6 +67,7 @@ public class EIPTracingStrategy implements InterceptStrategy {
             } catch (Exception ex) {
                 LOG.debug("Handling exception thrown by invoked EIP {}", target);
                 subsegment.addException(ex);
+                throw ex;
             } finally {
                 LOG.debug("Closing down subsegment for {}", name);
                 subsegment.close();

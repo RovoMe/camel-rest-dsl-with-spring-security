@@ -41,7 +41,7 @@ public class MongoSpringConfig {
     }
 
     @Bean(destroyMethod = "close")
-    public MongoClient registryAccesslayerMongo() throws MongoException, IOException {
+    public MongoClient mongo() throws MongoException, IOException {
         return new MongoBuilder(settings)
                 .withSocketTimeout(60000)
                 .withConnectTimeout(15000)
@@ -63,7 +63,7 @@ public class MongoSpringConfig {
     public Datastore datastore() throws MongoException, UnknownHostException {
         MongoClient mongo = null;
         try {
-            mongo = registryAccesslayerMongo();
+            mongo = mongo();
         } catch (IOException e) {
             LOG.error("Could not create the local database (embedded MongoDB)", e);
         }

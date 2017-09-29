@@ -1,7 +1,9 @@
 package at.rovo.awsxray.xray;
 
+import at.rovo.awsxray.HeaderConstants;
 import com.amazonaws.xray.AWSXRay;
 import com.amazonaws.xray.entities.Segment;
+import com.amazonaws.xray.entities.TraceID;
 import java.lang.invoke.MethodHandles;
 import java.util.EventObject;
 import java.util.HashSet;
@@ -179,7 +181,16 @@ public class XRayTracer extends ServiceSupport implements RoutePolicyFactory, St
                 return;
             }
 
+            TraceID traceID;
+            if (exchange.getIn().getHeaders().containsKey(HeaderConstants.XRAY_TRACE_ID)) {
+                traceID = TraceID.fromString(exchange.getIn().getHeader(HeaderConstants.XRAY_TRACE_ID, String.class));
+            } else {
+                traceID = new TraceID();
+                exchange.getIn().setHeader(HeaderConstants.XRAY_TRACE_ID, traceID.toString());
+            }
+
             Segment segment = AWSXRay.beginSegment(route.getId());
+            segment.setTraceId(traceID);
 
             LOG.debug("Starting new exchange {} for route {}", exchange.getExchangeId(), route.getId());
             exchange.addOnCompletion(new SynchronizationAdapter() {

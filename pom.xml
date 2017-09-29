@@ -113,6 +113,13 @@
             <version>${spring.boot.version}</version>
         </dependency>
 
+        <!-- AspectJ annotations -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-aspects</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
         <!-- Servlet 3.1 support -->
         <dependency>
             <groupId>javax.servlet</groupId>
@@ -277,11 +284,11 @@
             <groupId>com.amazonaws</groupId>
             <artifactId>aws-xray-recorder-sdk-apache-http</artifactId>
         </dependency>
-        <!--<dependency>-->
-            <!--&lt;!&ndash; Instruments outbound calls to a MySQL database made with JDBC &ndash;&gt;-->
-            <!--<groupId>com.amazonaws</groupId>-->
-            <!--<artifactId>aws-xray-recorder-sdk-sql-mysql</artifactId>-->
-        <!--</dependency>-->
+        <dependency>
+            <!-- Instruments outbound calls to a MySQL database made with JDBC -->
+            <groupId>com.amazonaws</groupId>
+            <artifactId>aws-xray-recorder-sdk-sql-mysql</artifactId>
+        </dependency>
 
         <!-- Lombok -->
         <dependency>

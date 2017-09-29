@@ -7,6 +7,7 @@ import at.rovo.awsxray.routes.api.SampleFileRoute;
 import at.rovo.awsxray.routes.beans.LogUserCompany;
 import at.rovo.awsxray.utils.DatabasePopulator;
 import at.rovo.awsxray.xray.EIPTracingStrategy;
+import at.rovo.awsxray.xray.MonitorServicesAspect;
 import at.rovo.awsxray.xray.XRayTracer;
 import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 import dk.nykredit.jackson.dataformat.hal.HALMapper;
@@ -28,6 +29,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
@@ -41,6 +43,7 @@ import org.springframework.core.env.Environment;
         AwsS3SpringConfig.class,
         HttpClientSpringConfig.class
 })
+@EnableAspectJAutoProxy
 @PropertySource("classpath:app-${spring.profiles.active}.properties")
 public class SpringConfig extends CamelConfiguration {
 
@@ -162,5 +165,13 @@ public class SpringConfig extends CamelConfiguration {
                 return super.createDataFormat(name, context);
             }
         }
+    }
+
+    // Spring-Aspect which weaves backing services like database services and creates XRay sub-segments for each request
+    // triggered
+
+    @Bean
+    public MonitorServicesAspect monitorServices() {
+        return new MonitorServicesAspect();
     }
 }
