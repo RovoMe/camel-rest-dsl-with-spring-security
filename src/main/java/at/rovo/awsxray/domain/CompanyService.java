@@ -1,6 +1,6 @@
 package at.rovo.awsxray.domain;
 
-import at.rovo.awsxray.domain.entities.CompanyEntity;
+import at.rovo.awsxray.domain.entities.mongo.CompanyEntity;
 import com.mongodb.WriteResult;
 import org.mongodb.morphia.query.Query;
 import org.springframework.stereotype.Service;

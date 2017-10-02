@@ -1,4 +1,4 @@
-package at.rovo.awsxray.domain.entities;
+package at.rovo.awsxray.domain.entities.mongo;
 
 public interface SaltHash {
 

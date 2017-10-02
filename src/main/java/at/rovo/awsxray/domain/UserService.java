@@ -1,6 +1,6 @@
 package at.rovo.awsxray.domain;
 
-import at.rovo.awsxray.domain.entities.UserEntity;
+import at.rovo.awsxray.domain.entities.mongo.UserEntity;
 import at.rovo.awsxray.domain.views.AuthenticationUserViewEntity;
 import at.rovo.awsxray.domain.views.CompanyUserViewEntity;
 import at.rovo.awsxray.security.KeyGenerator;

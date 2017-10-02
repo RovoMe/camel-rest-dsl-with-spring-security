@@ -52,7 +52,7 @@ public class MongoSpringConfig {
 
     @Bean
     public Morphia morphia() {
-        Morphia morphia = new Morphia().mapPackage("at.rovo.awsxray.db.entities");
+        Morphia morphia = new Morphia().mapPackage("at.rovo.awsxray.db.entities.mongo");
 
         morphia.getMapper().getConverters().addConverter(BigDecimalConverter.class);
 

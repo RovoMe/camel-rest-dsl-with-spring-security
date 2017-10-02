@@ -1,6 +1,6 @@
 package at.rovo.awsxray.domain.views;
 
-import at.rovo.awsxray.domain.entities.DomainObject;
+import at.rovo.awsxray.domain.entities.mongo.DomainObject;
 import org.bson.types.ObjectId;
 import org.mongodb.morphia.annotations.Id;
 

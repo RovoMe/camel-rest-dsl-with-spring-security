@@ -14,13 +14,18 @@
 
         <camel.version>2.19.2</camel.version>
         <fasterxml.version>2.9.0</fasterxml.version>
+        <hibernate.version>4.3.11.FINAL</hibernate.version>
+        <javax-el.version>2.2.5</javax-el.version>
+        <javax.el-api.version>2.2.5</javax.el-api.version>
         <jetty.version>9.3.14.v20161028</jetty.version>
         <json.version>20170516</json.version>
         <logback.version>1.2.3</logback.version>
         <mongo.version>3.5.0</mongo.version>
         <morphia.version>1.3.2</morphia.version>
+        <mysql.version>5.1.41</mysql.version>
         <slf.version>1.7.25</slf.version>
         <spring.version>4.3.8.RELEASE</spring.version>
+        <spring.data.version>1.11.4.RELEASE</spring.data.version>
         <spring.boot.version>1.5.4.RELEASE</spring.boot.version>
     </properties>
 
@@ -99,6 +104,13 @@
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-web</artifactId>
             <version>4.2.3.RELEASE</version>
+        </dependency>
+
+        <!-- Spring data -->
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-jpa</artifactId>
+            <version>${spring.data.version}</version>
         </dependency>
 
         <!-- Spring boot -->
@@ -214,6 +226,23 @@
             <groupId>org.mongodb.morphia</groupId>
             <artifactId>morphia</artifactId>
             <version>${morphia.version}</version>
+        </dependency>
+
+        <!-- MySQL / Hibernate -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>${mysql.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-entitymanager</artifactId>
+            <version>${hibernate.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.el</groupId>
+            <artifactId>javax.el-api</artifactId>
+            <version>${javax.el-api.version}</version>
         </dependency>
 
         <!-- Amazon Web Service - S3 -->

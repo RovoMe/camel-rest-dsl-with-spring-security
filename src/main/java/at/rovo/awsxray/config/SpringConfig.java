@@ -38,6 +38,7 @@ import org.springframework.core.env.Environment;
 @Configuration
 @Import({
         MongoSpringConfig.class,
+        MySQLSpringConfig.class,
         JettySpringConfig.class,
         SpringSecurityConfig.class,
         AwsS3SpringConfig.class,

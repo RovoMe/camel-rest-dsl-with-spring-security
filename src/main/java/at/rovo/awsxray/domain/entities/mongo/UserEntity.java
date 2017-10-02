@@ -1,4 +1,4 @@
-package at.rovo.awsxray.domain.entities;
+package at.rovo.awsxray.domain.entities.mongo;
 
 import at.rovo.awsxray.security.AESEncryptor;
 import at.rovo.awsxray.utils.EncryptedString;

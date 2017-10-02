@@ -2,7 +2,7 @@ package at.rovo.awsxray.routes.api.beans;
 
 import at.rovo.awsxray.domain.FileService;
 import at.rovo.awsxray.domain.dto.FileEntry;
-import at.rovo.awsxray.domain.entities.FileEntity;
+import at.rovo.awsxray.domain.entities.mongo.FileEntity;
 import at.rovo.awsxray.exceptions.FileNotFoundException;
 import at.rovo.awsxray.s3.BlobStore;
 import at.rovo.awsxray.xray.Trace;

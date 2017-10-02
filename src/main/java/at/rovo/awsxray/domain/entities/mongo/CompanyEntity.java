@@ -1,4 +1,4 @@
-package at.rovo.awsxray.domain.entities;
+package at.rovo.awsxray.domain.entities.mongo;
 
 import org.mongodb.morphia.annotations.Embedded;
 import org.mongodb.morphia.annotations.Entity;

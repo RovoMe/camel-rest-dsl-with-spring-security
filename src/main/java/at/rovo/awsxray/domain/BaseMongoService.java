@@ -1,7 +1,7 @@
 package at.rovo.awsxray.domain;
 
-import at.rovo.awsxray.domain.entities.BaseEntity;
-import at.rovo.awsxray.domain.entities.SaltHash;
+import at.rovo.awsxray.domain.entities.mongo.BaseEntity;
+import at.rovo.awsxray.domain.entities.mongo.SaltHash;
 import at.rovo.awsxray.exceptions.PersistenceRuntimeException;
 import at.rovo.awsxray.utils.MongodbPersistenceUtil;
 import javax.annotation.Resource;

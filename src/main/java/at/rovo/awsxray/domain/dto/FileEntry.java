@@ -1,6 +1,6 @@
 package at.rovo.awsxray.domain.dto;
 
-import at.rovo.awsxray.domain.entities.FileEntity;
+import at.rovo.awsxray.domain.entities.mongo.FileEntity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import dk.nykredit.jackson.dataformat.hal.HALLink;

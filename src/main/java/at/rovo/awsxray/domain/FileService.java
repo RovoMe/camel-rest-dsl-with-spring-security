@@ -1,6 +1,6 @@
 package at.rovo.awsxray.domain;
 
-import at.rovo.awsxray.domain.entities.FileEntity;
+import at.rovo.awsxray.domain.entities.mongo.FileEntity;
 import java.util.List;
 import org.mongodb.morphia.query.FindOptions;
 import org.springframework.stereotype.Service;

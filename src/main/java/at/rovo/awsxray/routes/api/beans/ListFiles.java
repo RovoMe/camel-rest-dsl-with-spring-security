@@ -3,7 +3,7 @@ package at.rovo.awsxray.routes.api.beans;
 import at.rovo.awsxray.domain.FileService;
 import at.rovo.awsxray.domain.dto.FileEntry;
 import at.rovo.awsxray.domain.dto.ListFilesResponse;
-import at.rovo.awsxray.domain.entities.FileEntity;
+import at.rovo.awsxray.domain.entities.mongo.FileEntity;
 import at.rovo.awsxray.xray.Trace;
 import java.util.ArrayList;
 import java.util.List;
