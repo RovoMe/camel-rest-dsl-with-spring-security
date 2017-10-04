@@ -6,6 +6,7 @@ import at.rovo.awsxray.domain.entities.mongo.FileEntity;
 import at.rovo.awsxray.s3.BlobStore;
 import at.rovo.awsxray.utils.AuditLogUtils;
 import at.rovo.awsxray.xray.Trace;
+import com.amazonaws.xray.AWSXRay;
 import java.util.Map;
 import javax.annotation.Resource;
 import org.apache.camel.Body;
@@ -40,7 +41,9 @@ public class StoreFile {
         fileEntity.setBlobKey(blobKey);
 
         fileService.persist(fileEntity);
-        auditLogUtils.auditLog(userId, "Metadata of file " + fileName + " persisted");
+
+        AWSXRay.getCurrentSegment().putAnnotation("documentUuid", fileEntity.getUuid());
+        auditLogUtils.auditLog(userId, "Metadata of file " + fileName + " persisted for UUID " + fileEntity.getUuid());
 
         JSONObject response = new JSONObject();
         response.put("uuid", fileEntity.getUuid());

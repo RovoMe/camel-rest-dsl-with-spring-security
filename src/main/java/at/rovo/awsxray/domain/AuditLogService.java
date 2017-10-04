@@ -55,6 +55,6 @@ public class AuditLogService {
     public void clearTable(String tableName) {
         Query q = entityManager.createQuery("DELETE FROM " + tableName);
         int removed = q.executeUpdate();
-        LOG.info("Removed {} entris from {}", removed, tableName);
+        LOG.info("Removed {} entries from {}", removed, tableName);
     }
 }

@@ -1,9 +1,11 @@
 package at.rovo.awsxray.routes.api.beans;
 
+import at.rovo.awsxray.HeaderConstants;
 import at.rovo.awsxray.domain.FileService;
 import at.rovo.awsxray.domain.dto.FileEntry;
 import at.rovo.awsxray.domain.dto.ListFilesResponse;
 import at.rovo.awsxray.domain.entities.mongo.FileEntity;
+import at.rovo.awsxray.utils.AuditLogUtils;
 import at.rovo.awsxray.xray.Trace;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,9 +20,14 @@ public class ListFiles {
 
     @Resource
     private FileService fileService;
+    @Resource
+    private AuditLogUtils auditLogUtils;
 
     @Handler
     public ListFilesResponse listFiles(Exchange exchange) {
+
+        String userId = exchange.getIn().getHeader("userId", String.class);
+
         String contextPath = exchange.getIn().getHeader(Exchange.HTTP_URL, String.class);
         int limit = exchange.getIn().getHeader("limit", Integer.class);
         int offset = exchange.getIn().getHeader("offset", Integer.class);
@@ -43,6 +50,8 @@ public class ListFiles {
             FileEntry entry = new FileEntry(entity, contextPath);
             dtos.add(entry);
         }
+
+        auditLogUtils.auditLog(userId, "Files for listing collected");
 
         return new ListFilesResponse(dtos, contextPath, limit, offset, fileCount);
     }

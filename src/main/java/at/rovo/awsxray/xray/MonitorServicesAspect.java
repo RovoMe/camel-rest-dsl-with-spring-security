@@ -28,7 +28,9 @@ public class MonitorServicesAspect {
 
     @Pointcut("execution(* at.rovo.awsxray.domain.UserService.*(..)) " +
               "|| execution(* at.rovo.awsxray.domain.CompanyService.*(..)) " +
-              "|| execution(* at.rovo.awsxray.domain.FileService.*(..)) ")
+              "|| execution(* at.rovo.awsxray.domain.FileService.*(..)) " +
+              "|| execution(* at.rovo.awsxray.domain.AuditLogService.*(..)) "
+    )
     public void invokedService() { }
 
     @Around("invokedService()")
