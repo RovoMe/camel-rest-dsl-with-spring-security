@@ -10,8 +10,7 @@ public class UserKeyAuthenticationProvider extends MongoDBAuthenticationProvider
     private static final Logger LOG = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     @Override
-    protected boolean authenticate(String userId, String password, AppUser user) throws AuthenticationException
-    {
+    protected boolean authenticate(String userId, String password, AppUser user) throws AuthenticationException {
         if (null == user) {
             LOG.info("No user object passed to the authenticate method");
             return false;

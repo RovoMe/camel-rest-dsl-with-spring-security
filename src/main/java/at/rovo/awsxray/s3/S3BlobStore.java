@@ -11,6 +11,7 @@ import org.apache.camel.Exchange;
 import org.apache.camel.ExchangePattern;
 import org.apache.camel.ProducerTemplate;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,12 +72,12 @@ public class S3BlobStore implements BlobStore {
   }
 
   @Override
-  public String syncStoreMessage(byte[] file, String uuid, long timestamp) {
+  public String syncStoreMessage(byte[] file, String uuid, long timestamp, String traceId) {
     throw new UnsupportedOperationException("Method not implemented yet");
   }
 
   @Override
-  public String asyncStoreMessage(byte[] file, String uuid, long timestamp) {
+  public String asyncStoreMessage(byte[] file, String uuid, long timestamp, String traceId) {
 
     LOG.debug("S3 blob store async store for file {} invoked", uuid);
     String key;
@@ -95,6 +96,9 @@ public class S3BlobStore implements BlobStore {
         localQueueToRemoteWriteStateUpload.createExchange(ExchangePattern.InOnly);
     remoteWriteStateUpload.getIn().setBody(file);
     remoteWriteStateUpload.getIn().setHeader(HeaderConstants.FILE_BLOB_S3KEY, key);
+    if (StringUtils.isNotBlank(traceId)) {
+      remoteWriteStateUpload.getIn().setHeader(HeaderConstants.XRAY_TRACE_ID, traceId);
+    }
     LOG.debug("Forwarding file {} for upload to S3: {}", uuid, key);
     producerTemplate.asyncSend(localQueueToRemoteWriteStateUpload, remoteWriteStateUpload);
     LOG.debug("Uploading file {} blob with key {} to S3 initiated", uuid, key);

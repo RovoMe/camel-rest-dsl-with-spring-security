@@ -1,6 +1,7 @@
 package at.rovo.awsxray.config;
 
 import at.rovo.awsxray.routes.S3FileUploadRoute;
+import at.rovo.awsxray.routes.api.FileProcessingRoute;
 import at.rovo.awsxray.routes.api.HealthCheckResponderRoute;
 import at.rovo.awsxray.routes.HttpInvokerRoute;
 import at.rovo.awsxray.routes.api.SampleFileRoute;
@@ -102,6 +103,7 @@ public class SpringConfig extends CamelConfiguration {
         routes.add(healthCheckResponderRoute());
         routes.add(httpInvokerRoute());
         routes.add(sampleFileRoute());
+        routes.add(fileProcessingRoute());
         routes.add(s3FileUploadRoute);
 
         return routes;
@@ -121,6 +123,11 @@ public class SpringConfig extends CamelConfiguration {
     @Bean
     public SampleFileRoute sampleFileRoute() {
         return new SampleFileRoute();
+    }
+
+    @Bean
+    public FileProcessingRoute fileProcessingRoute() {
+        return new FileProcessingRoute();
     }
 
     @Bean

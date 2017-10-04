@@ -94,7 +94,7 @@ public class HttpClientSpringConfig {
     @PostConstruct
     public void init() {
         LOG.debug("Initializing HTTP clients");
-        camelContext.addComponent("https-untrusted", registerCustomHttp4Component());
+        camelContext.addComponent("https", registerCustomHttp4Component());
         camelContext.addComponent("http4", new AWSXRayEnrichedHttpComponent());
         HttpComponent httpComponent = camelContext.getComponent("http4", AWSXRayEnrichedHttpComponent.class);
         httpComponent.setHttpClientConfigurer(httpConfiguration());

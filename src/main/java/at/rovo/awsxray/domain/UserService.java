@@ -99,17 +99,17 @@ public class UserService extends BaseMongoService<UserEntity> {
         }
 
         Query<UserEntity> query = mongoDataStore.find(UserEntity.class).field("userId")
-                .contains(MongodbPersistenceUtil.sanitize(containedString).toLowerCase()).offset(start);
+                .contains(MongodbPersistenceUtil.sanitize(containedString).toLowerCase())
+                .offset(start).limit(limit);
 
         if (!includeDisabled) {
-            query.limit(limit).field("disabled").notEqual(true);
+            query.field("disabled").notEqual(true);
         }
 
         return query.fetch();
     }
 
-    public Iterable<UserEntity> findUsersByFirstName(String containedString, int start,
-                                                     int limit) {
+    public Iterable<UserEntity> findUsersByFirstName(String containedString, int start, int limit) {
         return findUsersByFirstName(containedString, start, limit, false);
     }
 
@@ -121,8 +121,8 @@ public class UserService extends BaseMongoService<UserEntity> {
         }
 
         Query<UserEntity> query = mongoDataStore.find(UserEntity.class).field("firstName")
-                .containsIgnoreCase(MongodbPersistenceUtil.sanitize(containedString)).offset(start)
-                .limit(limit);
+                .containsIgnoreCase(MongodbPersistenceUtil.sanitize(containedString))
+                .offset(start).limit(limit);
 
         if (!includeDisabled) {
             query.field("disabled").notEqual(true);
@@ -132,8 +132,7 @@ public class UserService extends BaseMongoService<UserEntity> {
     }
 
 
-    public Iterable<UserEntity> findUsersByLastName(String containedString, int start,
-                                                    int limit) {
+    public Iterable<UserEntity> findUsersByLastName(String containedString, int start, int limit) {
         return findUsersByLastName(containedString, start, limit, false);
     }
 
@@ -145,8 +144,8 @@ public class UserService extends BaseMongoService<UserEntity> {
         }
 
         Query<UserEntity> query = mongoDataStore.find(UserEntity.class).field("lastName")
-                .containsIgnoreCase(MongodbPersistenceUtil.sanitize(containedString)).offset(start)
-                .limit(limit);
+                .containsIgnoreCase(MongodbPersistenceUtil.sanitize(containedString))
+                .offset(start).limit(limit);
 
         if (!includeDisabled) {
             query.field("disabled").notEqual(true);

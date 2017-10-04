@@ -2,6 +2,7 @@ package at.rovo.awsxray.config;
 
 import at.rovo.awsxray.config.settings.MySQLSettings;
 import at.rovo.awsxray.domain.AuditLogService;
+import at.rovo.awsxray.utils.AuditLogUtils;
 import java.lang.invoke.MethodHandles;
 import java.util.Properties;
 import javax.annotation.Resource;
@@ -80,5 +81,10 @@ public class MySQLSpringConfig {
     @Bean
     public AuditLogService auditLogService() {
         return new AuditLogService();
+    }
+
+    @Bean
+    public AuditLogUtils auditLogUtils() {
+        return new AuditLogUtils();
     }
 }

@@ -5,10 +5,10 @@ import java.io.IOException;
 /**
  * Common interface for a file store that provides basic storage and retrieval methods.
  * <p>
- * A message content can be stored either {@link #syncStoreMessage(byte[], String, long) synchronously}, by blocking
- * further execution until the file was uploaded successfully or failed the general upload, or
- * {@link #asyncStoreMessage(byte[], String, long) asynchronously} by letting the invoking code proceed its execution
- * in a fire and forget manner.
+ * A message content can be stored either {@link #syncStoreMessage(byte[], String, long, String) synchronously}, by
+ * blocking further execution until the file was uploaded successfully or failed the general upload, or
+ * {@link #asyncStoreMessage(byte[], String, long, String) asynchronously} by letting the invoking code proceed its
+ * execution in a fire and forget manner.
  * <p>
  * Stored files can be retrieved via the previously generated key of the message which needs to be
  * passed to {@link #getMessage(String)}. The returned input stream will allow to stream the bytes
@@ -23,9 +23,10 @@ public interface BlobStore {
    * @param file      The byte of the message to store
    * @param uuid      The unique identifier of a message
    * @param timestamp A timestamp value similar to the one generated via {@link System#currentTimeMillis()}
+   * @param traceId   Optional argument that may be used in order to keep track of the storage process
    * @return The unique key of the stored message
    */
-  String syncStoreMessage(byte[] file, String uuid, long timestamp);
+  String syncStoreMessage(byte[] file, String uuid, long timestamp, String traceId);
 
   /**
    * Stores the bytes of a <em>file</em> to a remote store for a given <em>key</em>. The storage will happen
@@ -34,9 +35,10 @@ public interface BlobStore {
    * @param file      The byte of the message to store
    * @param uuid      The unique identifier of a message
    * @param timestamp A timestamp value similar to the one generated via {@link System#currentTimeMillis()}
+   * @param traceId   Optional argument that may be used in order to keep track of the storage process
    * @return The unique key of the stored message
    */
-  String asyncStoreMessage(byte[] file, String uuid, long timestamp);
+  String asyncStoreMessage(byte[] file, String uuid, long timestamp, String traceId);
 
   /**
    * Retrieves a file from the store by looking up the document with the previously generated and stored <em>key</em>.

@@ -1,12 +1,17 @@
 package at.rovo.awsxray.routes.api;
 
+import at.rovo.awsxray.domain.entities.mongo.FileEntity;
+import at.rovo.awsxray.routes.api.beans.AnalysisResults;
+import at.rovo.awsxray.routes.api.beans.DetermineFileName;
 import at.rovo.awsxray.routes.api.beans.GetFile;
 import at.rovo.awsxray.routes.api.beans.ListFiles;
 import at.rovo.awsxray.routes.api.beans.StoreFile;
 import at.rovo.awsxray.routes.beans.LogUserCompany;
 import at.rovo.awsxray.security.SpringSecurityContextLoader;
+import org.apache.camel.Exchange;
 import org.apache.camel.model.rest.RestBindingMode;
 import org.apache.camel.model.rest.RestParamType;
+import org.apache.camel.processor.aggregate.AggregationStrategy;
 import org.springframework.http.MediaType;
 
 public class SampleFileRoute extends BaseAPIRouteBuilder {
@@ -80,6 +85,23 @@ public class SampleFileRoute extends BaseAPIRouteBuilder {
                         .bean(SpringSecurityContextLoader.class)
                         .policy("authenticated")
                         .bean(LogUserCompany.class)
+                        .bean(DetermineFileName.class)
+                        .enrich(FileProcessingRoute.PROCESS_FILE, (Exchange oldExchange, Exchange newExchange) -> {
+
+                                String charset = (String)oldExchange.getIn().getHeader(Exchange.CHARSET_NAME);
+                                String fileName = (String)oldExchange.getIn().getHeader(Exchange.FILE_NAME);
+                                byte[] file = oldExchange.getIn().getBody(byte[].class);
+
+                                FileEntity fileEntity = new FileEntity(fileName, charset, file.length);
+                                fileEntity.setRawContent(file);
+
+                                AnalysisResults results = newExchange.getIn().getBody(AnalysisResults.class);
+                                fileEntity.setFileTerms(results.getTerms());
+                                results.getSearchResults().forEach(data -> fileEntity.addSearchResult(data.getUrl(), data.getUrlDescription(), data.getCite(), data.getSubhead()));
+
+                                oldExchange.getIn().setBody(fileEntity);
+                                return oldExchange;
+                        })
                         .bean(StoreFile.class)
                         .log("File upload completed")
                 .endRest();

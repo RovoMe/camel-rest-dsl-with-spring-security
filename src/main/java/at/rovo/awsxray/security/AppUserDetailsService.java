@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import javax.annotation.Resource;
+import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -15,8 +16,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 /**
- * Fake user lookup service. This should usually read user data from a backing datastore such as MongoDB, SQL or similar
- * and return the loaded data as a {@link User} implementation.
+ * Lookup service for user related data on utilizing a backing {@link UserService} which targets a MongoDB data store.
+ * Note that the actual verification of the user with the given credentials occurs in the {@link AuthenticationProvider}
+ * implementation.
  */
 @Service
 public class AppUserDetailsService implements UserDetailsService {
