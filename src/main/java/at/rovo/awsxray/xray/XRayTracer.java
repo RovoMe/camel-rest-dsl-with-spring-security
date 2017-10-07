@@ -189,7 +189,7 @@ public class XRayTracer extends ServiceSupport implements RoutePolicyFactory, St
                 exchange.getIn().setHeader(HeaderConstants.XRAY_TRACE_ID, traceID.toString());
             }
 
-            Segment segment = AWSXRay.beginSegment(route.getId());
+            final Segment segment = AWSXRay.beginSegment(route.getId());
             segment.setTraceId(traceID);
 
             LOG.debug("Starting new exchange {} for route {}", exchange.getExchangeId(), route.getId());

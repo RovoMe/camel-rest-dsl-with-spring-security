@@ -8,8 +8,7 @@ import org.apache.camel.Handler;
  * Copies the received forward response to the headers in order to prevent the actual message content
  * from being overwritten by the received response
  */
-public class CopyBodyToHeaders
-{
+public class CopyBodyToHeaders {
 
   @Handler
   public byte[] copyBodyToHeaders(Exchange exchange) {
