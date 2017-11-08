@@ -7,9 +7,8 @@ import at.rovo.awsxray.routes.HttpInvokerRoute;
 import at.rovo.awsxray.routes.api.SampleFileRoute;
 import at.rovo.awsxray.routes.beans.LogUserCompany;
 import at.rovo.awsxray.utils.DatabasePopulator;
-import at.rovo.awsxray.xray.EIPTracingStrategy;
 import at.rovo.awsxray.xray.MonitorServicesAspect;
-import at.rovo.awsxray.xray.XRayTracer;
+import at.rovo.awsxray.xray.TraceEIPTracingStrategy;
 import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 import dk.nykredit.jackson.dataformat.hal.HALMapper;
 import java.lang.invoke.MethodHandles;
@@ -19,6 +18,8 @@ import javax.annotation.Resource;
 import org.apache.camel.CamelContext;
 import org.apache.camel.ProducerTemplate;
 import org.apache.camel.builder.RouteBuilder;
+import org.apache.camel.component.aws.xray.TraceAnnotatedTracingStrategy;
+import org.apache.camel.component.aws.xray.XRayTracer;
 import org.apache.camel.component.jackson.JacksonDataFormat;
 import org.apache.camel.component.properties.PropertiesComponent;
 import org.apache.camel.impl.DefaultDataFormatResolver;
@@ -87,7 +88,8 @@ public class SpringConfig extends CamelConfiguration {
         camelContext.setDataFormatResolver(new HalDataFormatResolver());
 
         XRayTracer xRayTracer = new XRayTracer();
-        xRayTracer.setTracingStrategy(new EIPTracingStrategy());
+//        xRayTracer.setTracingStrategy(new TraceAnnotatedTracingStrategy());
+        xRayTracer.setTracingStrategy(new TraceEIPTracingStrategy());
         xRayTracer.init(camelContext);
     }
 

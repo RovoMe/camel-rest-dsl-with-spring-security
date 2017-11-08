@@ -18,9 +18,11 @@ import org.apache.camel.Exchange;
 import org.apache.camel.Handler;
 import org.apache.camel.Header;
 import org.apache.camel.ProducerTemplate;
+import org.apache.camel.component.aws.xray.XRayTrace;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+@XRayTrace
 public class ExtractSearchTerms {
 
     private static final Logger LOG = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());

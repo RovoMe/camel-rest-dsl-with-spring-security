@@ -5,10 +5,12 @@ import java.util.Map;
 import org.apache.camel.Exchange;
 import org.apache.camel.Handler;
 import org.apache.camel.Headers;
+import org.apache.camel.component.aws.xray.XRayTrace;
 import org.json.JSONException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+@XRayTrace
 public class DetermineFileName {
 
     private static final Logger LOG = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());

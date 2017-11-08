@@ -1,13 +1,12 @@
 package at.rovo.awsxray.security;
 
-import at.rovo.awsxray.xray.Trace;
 import javax.annotation.Resource;
 import org.apache.camel.Exchange;
 import org.apache.camel.Handler;
 import org.apache.camel.Header;
+import org.apache.camel.component.aws.xray.XRayTrace;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 /**
@@ -16,7 +15,7 @@ import org.springframework.stereotype.Component;
  * for spring-security authentication support.
  */
 @Component
-@Trace(metricName = "UserAuthentication")
+@XRayTrace
 public class SpringSecurityContextLoader extends AbstractSpringSecurityContextLoader {
 
   @Resource(name = "userKeyAuthProvider")

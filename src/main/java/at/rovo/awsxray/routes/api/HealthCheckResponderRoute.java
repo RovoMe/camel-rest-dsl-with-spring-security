@@ -2,8 +2,7 @@ package at.rovo.awsxray.routes.api;
 
 import org.apache.camel.Exchange;
 
-public class HealthCheckResponderRoute extends BaseAPIRouteBuilder
-{
+public class HealthCheckResponderRoute extends BaseAPIRouteBuilder {
 
   @Override
   protected void defineRoute() throws Exception {

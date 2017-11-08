@@ -8,6 +8,7 @@ import java.lang.invoke.MethodHandles;
 import javax.annotation.Resource;
 import org.apache.camel.Exchange;
 import org.apache.camel.Handler;
+import org.apache.camel.component.aws.xray.XRayTrace;
 import org.apache.commons.lang.time.StopWatch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Component;
  * Uploads the bytes of the file to S3.
  */
 @Component
+@XRayTrace
 public class UploadBlobToS3 {
 
   private final static Logger LOG = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());

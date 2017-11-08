@@ -5,10 +5,12 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import lombok.Getter;
+import org.apache.camel.component.aws.xray.XRayTrace;
 
 @Getter
-public class AnalysisResults
-{
+@XRayTrace
+public class AnalysisResults {
+
     private final Map<String, Integer> terms;
     private final List<AnalyzedFileData> searchResults = new ArrayList<>();
 

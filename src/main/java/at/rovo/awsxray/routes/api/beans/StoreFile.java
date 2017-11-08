@@ -5,7 +5,6 @@ import at.rovo.awsxray.domain.FileService;
 import at.rovo.awsxray.domain.entities.mongo.FileEntity;
 import at.rovo.awsxray.s3.BlobStore;
 import at.rovo.awsxray.utils.AuditLogUtils;
-import at.rovo.awsxray.xray.Trace;
 import com.amazonaws.xray.AWSXRay;
 import java.util.Map;
 import javax.annotation.Resource;
@@ -13,12 +12,13 @@ import org.apache.camel.Body;
 import org.apache.camel.Exchange;
 import org.apache.camel.Handler;
 import org.apache.camel.Headers;
+import org.apache.camel.component.aws.xray.XRayTrace;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.stereotype.Component;
 
 @Component
-@Trace(metricName = "StoreFile")
+@XRayTrace
 public class StoreFile {
 
     @Resource
