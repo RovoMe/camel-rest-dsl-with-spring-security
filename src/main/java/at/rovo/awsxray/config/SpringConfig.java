@@ -1,5 +1,7 @@
 package at.rovo.awsxray.config;
 
+import at.rovo.awsxray.HeaderConstants;
+import at.rovo.awsxray.config.mdc.CustomUnitOfWorkFactory;
 import at.rovo.awsxray.routes.S3FileUploadRoute;
 import at.rovo.awsxray.routes.api.FileProcessingRoute;
 import at.rovo.awsxray.routes.api.HealthCheckResponderRoute;
@@ -81,6 +83,11 @@ public class SpringConfig extends CamelConfiguration {
         camelContext.getManagementNameStrategy().setNamePattern("#name#");
         camelContext.setUseBreadcrumb(true);
         camelContext.setTracing(false);
+
+        // enable MDC logging
+        camelContext.setUseMDCLogging(true);
+        String[] mdcHeaders = new String[]{HeaderConstants.FILE_ID};
+        camelContext.setUnitOfWorkFactory(new CustomUnitOfWorkFactory(mdcHeaders));
 
         final PropertiesComponent pc = new PropertiesComponent("classpath:" + env.getProperty("propertyfile"));
         camelContext.addComponent("properties", pc);

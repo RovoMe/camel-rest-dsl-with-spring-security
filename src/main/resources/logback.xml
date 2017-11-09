@@ -6,7 +6,7 @@
     <!-- LOG patterns -->
 
     <property name="patternValue"
-              value="%date{yyyy-MM-dd HH:mm:ss} [%-5level] %12.-12X{camel.routeId} - %mask(%msg) [%thread] [%logger{5}] %n"/>
+              value="%date{yyyy-MM-dd HH:mm:ss} [%-5level] %12.-12X{camel.routeId} - %X{FILE_ID} - %mask(%msg) [%thread] [%logger{5}] %n"/>
 
     <!-- Appender definitions-->
 
@@ -19,6 +19,8 @@
     <logger name="at.rovo" level="debug"/>
     <logger name="com.amazonaws.xray" level="debug"/>
     <logger name="org.eclipse.jetty.servlet" level="debug"/>
+    <logger name="org.apache.camel" level="debug"/>
+    <logger name="org.apache.camel.component.aws.xray" level="trace"/>
 
     <root>
         <level value="info"/>
