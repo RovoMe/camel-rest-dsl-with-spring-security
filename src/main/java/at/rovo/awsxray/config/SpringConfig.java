@@ -7,6 +7,7 @@ import at.rovo.awsxray.routes.api.FileProcessingRoute;
 import at.rovo.awsxray.routes.api.HealthCheckResponderRoute;
 import at.rovo.awsxray.routes.HttpInvokerRoute;
 import at.rovo.awsxray.routes.api.SampleFileRoute;
+import at.rovo.awsxray.routes.api.SqlQueryRoute;
 import at.rovo.awsxray.routes.beans.LogUserCompany;
 import at.rovo.awsxray.utils.DatabasePopulator;
 import at.rovo.awsxray.xray.MonitorServicesAspect;
@@ -113,6 +114,7 @@ public class SpringConfig extends CamelConfiguration {
         routes.add(httpInvokerRoute());
         routes.add(sampleFileRoute());
         routes.add(fileProcessingRoute());
+        routes.add(new SqlQueryRoute());
         routes.add(s3FileUploadRoute);
 
         return routes;

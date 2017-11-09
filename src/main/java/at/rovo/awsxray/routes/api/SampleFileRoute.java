@@ -1,5 +1,6 @@
 package at.rovo.awsxray.routes.api;
 
+import at.rovo.awsxray.HeaderConstants;
 import at.rovo.awsxray.domain.entities.mongo.FileEntity;
 import at.rovo.awsxray.routes.api.beans.AnalysisResults;
 import at.rovo.awsxray.routes.api.beans.DetermineFileName;
@@ -13,6 +14,8 @@ import org.apache.camel.model.rest.RestBindingMode;
 import org.apache.camel.model.rest.RestParamType;
 import org.apache.camel.processor.aggregate.AggregationStrategy;
 import org.springframework.http.MediaType;
+
+import static at.rovo.awsxray.routes.api.SqlQueryRoute.SQL_QUERY;
 
 public class SampleFileRoute extends BaseAPIRouteBuilder {
 
@@ -82,6 +85,7 @@ public class SampleFileRoute extends BaseAPIRouteBuilder {
 
                     .route().routeId("api-file-upload")
                         .log("Processing incoming file")
+                        .inOnly(SQL_QUERY)
                         .bean(SpringSecurityContextLoader.class)
                         .policy("authenticated")
                         .bean(LogUserCompany.class)
@@ -93,6 +97,7 @@ public class SampleFileRoute extends BaseAPIRouteBuilder {
                                 byte[] file = oldExchange.getIn().getBody(byte[].class);
 
                                 FileEntity fileEntity = new FileEntity(fileName, charset, file.length);
+                                oldExchange.getIn().setHeader(HeaderConstants.FILE_ID, fileEntity.getUuid());
                                 fileEntity.setRawContent(file);
 
                                 AnalysisResults results = newExchange.getIn().getBody(AnalysisResults.class);
