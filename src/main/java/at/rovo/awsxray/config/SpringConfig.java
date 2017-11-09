@@ -7,7 +7,7 @@ import at.rovo.awsxray.routes.api.FileProcessingRoute;
 import at.rovo.awsxray.routes.api.HealthCheckResponderRoute;
 import at.rovo.awsxray.routes.HttpInvokerRoute;
 import at.rovo.awsxray.routes.api.SampleFileRoute;
-import at.rovo.awsxray.routes.api.SqlQueryRoute;
+import at.rovo.awsxray.routes.SqlQueryRoute;
 import at.rovo.awsxray.routes.beans.LogUserCompany;
 import at.rovo.awsxray.utils.DatabasePopulator;
 import at.rovo.awsxray.xray.MonitorServicesAspect;
@@ -18,10 +18,10 @@ import java.lang.invoke.MethodHandles;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.Resource;
+
 import org.apache.camel.CamelContext;
 import org.apache.camel.ProducerTemplate;
 import org.apache.camel.builder.RouteBuilder;
-import org.apache.camel.component.aws.xray.TraceAnnotatedTracingStrategy;
 import org.apache.camel.component.aws.xray.XRayTracer;
 import org.apache.camel.component.jackson.JacksonDataFormat;
 import org.apache.camel.component.properties.PropertiesComponent;
@@ -114,7 +114,7 @@ public class SpringConfig extends CamelConfiguration {
         routes.add(httpInvokerRoute());
         routes.add(sampleFileRoute());
         routes.add(fileProcessingRoute());
-        routes.add(new SqlQueryRoute());
+        routes.add(sqlQueryRoute());
         routes.add(s3FileUploadRoute);
 
         return routes;
@@ -139,6 +139,11 @@ public class SpringConfig extends CamelConfiguration {
     @Bean
     public FileProcessingRoute fileProcessingRoute() {
         return new FileProcessingRoute();
+    }
+
+    @Bean
+    public SqlQueryRoute sqlQueryRoute() {
+        return new SqlQueryRoute();
     }
 
     @Bean

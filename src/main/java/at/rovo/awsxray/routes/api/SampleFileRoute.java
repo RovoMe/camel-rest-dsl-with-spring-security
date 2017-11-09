@@ -12,10 +12,9 @@ import at.rovo.awsxray.security.SpringSecurityContextLoader;
 import org.apache.camel.Exchange;
 import org.apache.camel.model.rest.RestBindingMode;
 import org.apache.camel.model.rest.RestParamType;
-import org.apache.camel.processor.aggregate.AggregationStrategy;
 import org.springframework.http.MediaType;
 
-import static at.rovo.awsxray.routes.api.SqlQueryRoute.SQL_QUERY;
+import static at.rovo.awsxray.routes.SqlQueryRoute.SQL_QUERY;
 
 public class SampleFileRoute extends BaseAPIRouteBuilder {
 

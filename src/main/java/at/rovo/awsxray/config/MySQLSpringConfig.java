@@ -5,9 +5,13 @@ import at.rovo.awsxray.domain.AuditLogService;
 import at.rovo.awsxray.utils.AuditLogUtils;
 import java.lang.invoke.MethodHandles;
 import java.util.Properties;
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
+
+import org.apache.camel.CamelContext;
+import org.apache.camel.component.sql.SqlComponent;
 import org.hibernate.jpa.HibernatePersistenceProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,6 +35,8 @@ public class MySQLSpringConfig {
 
     @Resource
     private MySQLSettings mySQLSettings;
+    @Resource
+    private CamelContext camelContext;
 
     @Bean
     public DataSource messageDataSource() {
@@ -86,5 +92,10 @@ public class MySQLSpringConfig {
     @Bean
     public AuditLogUtils auditLogUtils() {
         return new AuditLogUtils();
+    }
+
+    @PostConstruct
+    public void init() throws Exception {
+        camelContext.getComponent("sql", SqlComponent.class).setDataSource(messageDataSource());
     }
 }

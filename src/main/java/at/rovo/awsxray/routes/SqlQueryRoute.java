@@ -1,5 +1,6 @@
-package at.rovo.awsxray.routes.api;
+package at.rovo.awsxray.routes;
 
+import at.rovo.awsxray.routes.beans.AuditMapper;
 import org.apache.camel.builder.RouteBuilder;
 
 public class SqlQueryRoute extends RouteBuilder {
@@ -10,10 +11,8 @@ public class SqlQueryRoute extends RouteBuilder {
     public void configure() throws Exception {
         from(SQL_QUERY).routeId("sql-query")
                 .log("Performing sample Camel-based SQL query")
-                .to("sql:select * from audit?outputType=StreamList&outputClass=org.apache.camel.component.sql.ProjectModel&dataSource=#messageDataSource")
-                .to("log:stream")
-                .split(body())
-                .streaming()
-                .to("log:row");
+                .to("sql:SELECT *  FROM audit")
+                .bean(AuditMapper.class)
+                .log("${body}");
     }
 }
